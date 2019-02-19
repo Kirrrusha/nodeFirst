@@ -1,46 +1,39 @@
 const express = require('express');
+const querystring = require('querystring');
+const cookieParser = require('cookie-parser');
 
 const server = express();
+
+server.set('view engine', 'pug');
+
+server.use(express.static('public'));
+
+server.use(cookieParser());
 
 //For POST-request
 server.use(express.urlencoded({extended: true}));
 
 server.get('/', (req, res) => {
+const username = req.cookies.username;
 
-    res.send(`
-        <!DOCTYPE html>
-        <html lang="en">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <meta http-equiv="X-UA-Compatible" content="ie=edge">
-            <title>Предложение</title>
-        </head>
-        <body>
-            <h1>Вход</h1>
-            <form method="POST">
-                <input type="text" name="username" />
-                <button type="submit">Войти</button>
-            </form>
-        </body>
-        </html>
-    `);
-
-});
+res.render('index', {username});
+}); 
 
 server.post('/', (req, res) => {
-    res.send(`<!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>Предложение</title>
-    </head>
-    <body>
-        <p>Привет ${req.body.username}</p>
-    </body>
-    </html>`);
+    res.cookie('username', req.body.username);
+
+    res.redirect('/')
+});
+
+server.get('/suggestions', (req, res) => {
+    // Показать список предложений
+    throw new Error('Not implemented');
+});
+
+server.post('/suggestions', (req, res) => {
+    // Создать предложение
+    // Перенаправить на список
+    throw new Error('Not implemented');
 });
 
 server.listen(3002, 'localhost', () => console.log('Init'))
