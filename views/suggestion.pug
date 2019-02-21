@@ -8,11 +8,13 @@ html(lang='ru')
         link(rel='stylesheet' href='/styles.css')
 
     body
-    if username
-        h1 Привет! #{username}
-        a(href="/suggestions") Посмотреть список предложений
-    else 
-        h1 Вход
-        form(method="POST")
-            input(type="text" name="username")
-            button(type="submit") Войти
+        a(href="/suggestions") Назад
+
+        h1= suggestion.title
+
+        form(method='POST')
+            if suggestion.voters.has(username)
+                button(type='submit') Отменить голос
+            else
+                button(type='submit') Проголосовать
+

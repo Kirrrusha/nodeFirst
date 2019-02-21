@@ -1,0 +1,21 @@
+doctype html
+html(lang='ru')
+    head
+        meta(charset='utf-8')
+        meta(name='viewport' content='width=device-width, initial-scale=1.0')
+        meta(http-equiv='X-UA-Compatible' content='ie=edge')
+        title Предложения
+        link(rel='stylesheet' href='/styles.css')
+
+    body
+        h1 Предложения
+
+        ul
+            for suggestion in suggestions
+                li 
+                    a(href=`/suggestions/${suggestion.id}`)= suggestion.title
+                    |  (#{suggestion.voters.size})
+
+        form(method='POST')
+            input(type="text" name="title" placeholder="Название курса")
+            button(type='submit') Предложить
